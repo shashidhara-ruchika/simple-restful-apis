@@ -1,0 +1,59 @@
+# Help / Mannual
+docker-compose
+
+# If you have added or deleted files build the container again
+sudo docker-compose build
+
+# If you have made modifications and want to start the container
+sudo docker-compose up
+
+# User/Application Requirements
+
+> Register a user to be able to use the api
+> Detect similarity of the 2 docs/texts
+> Refill i.e. allow the administrator of this API to be able to 
+  increase the quota of the tokens for one of the users
+
+Resource          Address       Protocol   Parameters           Response + Status Code
+
+Register User     /register     POST       username, pwd        200 OK, registered successfully
+                                                                303 Username not available
+
+Detect doc/text   /detect_sim   POST       username, pwd,       200 OK, return similarity
+similarity                                 text1, text2         301 Out of tokens
+                                                                302 Invalid username-pwd
+                                                                303 Username not present
+                                                                                                              
+Refill            /refill       POST       username,            200 OK
+                                           admin pwd,           303 Username not present
+                                           refill amount        304 Invalid Admin pwd
+                                                                                                                                
+                                                           
+# Using Hashed Password from py-bcrypt
+import bcrypt
+
+# generating a hash for the password - 123qwe
+hashed_pwd = bcrypt.hashpw("123qwe".encode('utf8'), bcrypt.gensalt())
+
+# rehashing another password - 123qwr to check if it has correct
+print(bcrypt.hashpw("123qwr".encode('utf8'), hashed_pwd) == hashed_pwd)
+# or
+print(bcrypt.checkpw("123qwr".encode('utf8'), hashed_pwd))
+
+
+# Checking similarity/edit distance of 2 texts
+import spacy               
+nlp = spacy.load("en_core_web_sm")
+
+# converting string to nlp model processor
+text1 = nlp(text1)
+text2 = nlp(text2)
+
+# find ratio of similarity btw 0(least similar) & 1(most similar)
+ratio = text1.similarity(text2) 
+print(ratio)
+
+
+                                                
+                                                           
+
