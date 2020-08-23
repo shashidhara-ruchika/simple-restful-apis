@@ -1,0 +1,46 @@
+# Help / Mannual
+docker-compose
+
+# If you have added or deleted files build the container again
+sudo docker-compose build
+
+# If you have made modifications and want to start the container
+sudo docker-compose up
+
+# User/Application Requirements
+
+> Allow Registration of a user (0 tokens)
+> Each user gets 6 tokens
+> Store a sentence on our Database for 1 token
+> Retrieve his stored sentence on our Database for 1 token
+
+Resource          Address       Protocol   Param                Response + Status Code
+
+Register User     /register     POST       username, pwd        200 OK
+                                                                303 Username not available
+
+Store sentence    /store        POST       username, pwd,       200 OK
+                                           sentence             301 Out of tokens
+                                                                302 Invalid username-pwd
+                                                                303 Username not present
+                                                                                                              
+Retrive sentence  /get          POST       username, pwd        200 OK
+                                                                301 Out of Tokens
+                                                                302 Invalid username-pwd
+                                                                303 Username not present
+                                                                                                                                
+                                                           
+# Using Hashed Password from py-bcrypt
+import bcrypt
+
+# generating a hash for the password - 123qwe
+hashed_pwd = bcrypt.hashpw("123qwe".encode('utf8'), bcrypt.gensalt())
+
+# rehashing another password - 123qwr to check if it has correct
+print(bcrypt.hashpw("123qwr".encode('utf8'), hashed_pwd) == hashed_pwd)
+# or
+print(bcrypt.checkpw("123qwr".encode('utf8'), hashed_pwd))
+
+                                                
+                                                           
+
