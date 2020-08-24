@@ -1,0 +1,74 @@
+# Help / Mannual
+docker-compose
+
+# If you have added or deleted files build the container again
+sudo docker-compose build
+
+# If you have made modifications and want to start the container
+sudo docker-compose up
+
+# User/Application Requirements
+
+> Add money to your account
+> Transfer money from one account into another account
+> Take a loan from the BANK
+
+Resource          Address       Protocol   Parameters           Response + Status Code
+
+Register User     /register     POST       username, pwd        200 OK, registered successfully
+                                                                303 Username not available
+
+Detect doc/text   /detect_sim   POST       username, pwd,       200 OK, return similarity
+similarity                                 text1, text2         301 Out of tokens
+                                                                302 Invalid username-pwd
+                                                                303 Username not present
+                                                                                                              
+Refill            /refill       POST       username,            200 OK
+                                           admin pwd,           303 Username not present
+                                           refill amount        304 Invalid Admin pwd
+                                           
+Resource        Address         Protocol        Parameters      Response
+    
+Register        /register       POST            username, pwd   200 OK
+                                                                301 Username not available
+                                                                302 Invalid username-pwd
+                                           
+Deposit         /deposit        POST            username, pwd   200 OK
+                                                amount          301 Username not present
+                                                                302 Invalid username-pwd
+                                                                                      
+
+Transfer        /transfer       POST            username, pwd   200 OK
+                                                sender_username 301 Username not present
+                                                amount          302 Invalid username-pwd
+
+Check Balance   /check_bal      POST            username, pwd   200 OK
+                                                                301 Username not present
+                                                                302 Invalid username-pwd
+
+Take Loan       /take_loan      POST            username, pwd   200 OK
+                                                amount          301 Username not present
+                                                                302 Invalid username-pwd
+
+Pay Loan        /pay_loan       POST            username, pwd   200 OK
+                                                amount          301 Username not present
+                                                                302 Invalid username-pwd
+                                                                                                                                
+                                                           
+# Using Hashed Password from py-bcrypt
+import bcrypt
+
+# generating a hash for the password - 123qwe
+hashed_pwd = bcrypt.hashpw("123qwe".encode('utf8'), bcrypt.gensalt())
+
+# rehashing another password - 123qwr to check if it has correct
+print(bcrypt.hashpw("123qwr".encode('utf8'), hashed_pwd) == hashed_pwd)
+# or
+print(bcrypt.checkpw("123qwr".encode('utf8'), hashed_pwd))
+
+
+
+
+                                                
+                                                           
+
